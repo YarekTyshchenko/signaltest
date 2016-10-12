@@ -1,9 +1,42 @@
-#!/bin/bash
+#!/usr/bin/php
+<?php
+// tick use required as of PHP 4.3.0
+declare(ticks = 1);
 
-function handler {
-	echo "$(date) Caught signal" | tee -a /tmp/signal.txt
+// signal handler function
+function sig_handler($signo)
+{
+     switch ($signo) {
+        case SIGINT:
+            echo "Interrupted via terminal".PHP_EOL;
+            //exit;
+            break;
+         case SIGTERM:
+            // handle shutdown tasks
+            echo "Caught SIGTERM".PHP_EOL;
+            break;
+        case SIGHUP:
+            echo "SIGHUP";
+            break;
+         default:
+            // handle all other signals
+            echo "Caught signal ".$signo.PHP_EOL;
+            break;
+     }
+
 }
 
-trap handler SIGINT SIGTERM
+echo "Installing signal handler...\n";
 
-sleep 999999
+// setup signal handlers
+pcntl_signal(SIGTERM, "sig_handler");
+pcntl_signal(SIGINT, "sig_handler");
+pcntl_signal(SIGHUP, "sig_handler");
+
+// or use an object, available as of PHP 4.3.0
+// pcntl_signal(SIGUSR1, array($obj, "do_something"));
+
+while (true) {
+    echo '.'.PHP_EOL;
+    sleep(1);
+}
