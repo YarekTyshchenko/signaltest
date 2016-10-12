@@ -2,7 +2,6 @@
 <?php
 // tick use required as of PHP 4.3.0
 declare(ticks = 1);
-
 // signal handler function
 function sig_handler($signo)
 {
@@ -14,6 +13,14 @@ function sig_handler($signo)
          case SIGTERM:
             // handle shutdown tasks
             echo "Caught SIGTERM".PHP_EOL;
+            echo "Shutting down in 10 seconds".PHP_EOL;
+            $c = 10;
+            while ($c--) {
+                echo $c.PHP_EOL;
+                sleep(1);
+            }
+            exit;
+
             break;
         case SIGHUP:
             echo "Caught SIGHUP".PHP_EOL;
