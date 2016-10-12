@@ -9,14 +9,14 @@ function sig_handler($signo)
      switch ($signo) {
         case SIGINT:
             echo "Interrupted via terminal".PHP_EOL;
-            //exit;
+            exit;
             break;
          case SIGTERM:
             // handle shutdown tasks
             echo "Caught SIGTERM".PHP_EOL;
             break;
         case SIGHUP:
-            echo "SIGHUP";
+            echo "Caught SIGHUP".PHP_EOL;
             break;
          default:
             // handle all other signals
