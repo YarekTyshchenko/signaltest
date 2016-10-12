@@ -2,9 +2,8 @@
 
 function handler {
 	echo "$(date) Caught signal" | tee -a /tmp/signal.txt
-	exit
 }
 
 trap handler SIGINT SIGTERM
 
-exec sleep 999999
+sleep 999999
