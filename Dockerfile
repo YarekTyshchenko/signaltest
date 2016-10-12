@@ -7,6 +7,11 @@ RUN curl -sL "https://github.com/just-containers/s6-overlay/releases/download/v1
 
 ADD services.d /etc/services.d
 ADD init-stage3 /etc/s6/init/init-stage3
+
+WORKDIR /signal
+ADD crontab ./
+ADD signal.php ./
+RUN crontab -i crontab
 #ENV S6_KILL_GRACETIME=99999999
 
 CMD ["/init"]
